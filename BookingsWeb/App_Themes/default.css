@@ -1,0 +1,197 @@
+﻿BODY {
+    background-color: white;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+    font-size: 11px;
+    color: black;
+}
+
+SELECT {
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    height: auto;
+}
+
+INPUT {
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    height: auto;
+}
+
+TABLE {
+    background-color: white;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    color: black;
+    /*border:1px solid gray;
+	border-bottom:1px solid black;
+	border-top:1px solid black;*/
+}
+
+TH, TD /*table*/ {
+    padding: 3px 6px;
+    /*border: 1px solid gray;
+	border-width: 0 1px;*/
+}
+
+.buttontable {
+    border: none;
+}
+
+.buttontd {
+    border: none;
+}
+
+A:link {
+    background-color: transparent;
+    color: gray;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+A:visited {
+    background-color: transparent;
+    color: gray;
+    font-weight: bold;
+}
+
+A:active {
+    background-color: transparent;
+    color: #ffa500;
+    font-weight: bold;
+}
+
+/*A:hover {
+    background-color: transparent;
+    color: #ffa500;
+    font-weight: bold;
+    text-decoration: underline overline;
+}*/
+A:hover {
+    background-color: transparent;
+    color: red;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+a.white:link {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+a.white:active {
+    background-color: transparent;
+    color: #ffa500;
+    font-weight: bold;
+}
+
+a.white:visited {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+a.white:hover {
+    background-color: transparent;
+    color: #ffa500;
+    font-weight: bold;
+}
+
+.headerrow /*grid: header*/ {
+    background-color: #757575;
+    font-size: 11px;
+    font-weight: bold;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+}
+
+.footerrow /*grid: footer*/ {
+    background-color: #eaeaea;
+    font-size: 10px;
+    font-weight: bold;
+    color: black;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+    border-top: 1px solid black;
+}
+
+.row /*grid: row*/ {
+    background-color: #eaeaea;
+    font-size: 10px;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+}
+
+.altrow /*grid: alternating row*/ {
+    background-color: white;
+    font-size: 10px;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+}
+
+.selrow grid: selected row {
+    background-color: silver;
+    font-size: 10px;
+    color: white;
+    font-family: verdana,geneva,arial,helvetica,sans-serif;
+}
+
+.sselect /*selected dropdown*/ {
+    background-color: #ffa500;
+}
+
+.MHJT /*cell: stopped train*/ {
+    color: red;
+}
+
+.TERM /*cell: wrc's w pickup*/ {
+    color: green;
+    font-weight: bold;
+}
+/*.mnutable 
+{
+	font-size:11px;
+	background-color:White;
+	border-color:#ffa500;
+	border-width:1px;
+	border-style:solid;	
+}*/
+.btn /*frame resize buttons*/ {
+    margin: 2px 2px 4px 0px;
+    padding: 1px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
+    background: #ccc;
+    border: 1px solid #999;
+    width: 26px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.tb /*frame resize buttons*/ {
+    text-align: right;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 15px;
+}
+
+.leftcol /*grid: first (control)column*/ {
+    padding: 0px;
+    border-left: 0px;
+    visibility: hidden;
+}
+
+#header {
+    top: 1px;
+    width: 100%;
+    height: 20px;
+    position: fixed;
+    z-index: 10;
+}
+
+#content {
+    height: 100%;
+    padding: 20px 0px;
+}

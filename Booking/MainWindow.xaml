@@ -1,0 +1,36 @@
+﻿<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Booking"
+        mc:Ignorable="d"
+        Title="Booking" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:CustomerGridViewModel}">
+            <local:CustomerGridView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:RoomGridViewModel}">
+            <local:RoomGridView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:BookingGridViewModel}">
+            <local:BookingGridView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ToolBarPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100">
+            <Button Content="Kliendid" Command="{Binding CustomersCommand}"/>
+            <Button Content="Toad" Command="{Binding RoomsCommand}"/>
+            <Button Content="Broneeringud" Command="{Binding BookingsCommand}"/>
+        </ToolBarPanel>
+        <ContentControl Grid.Column="1" x:Name="Pages" DockPanel.Dock="Right" Content="{Binding SelectedViewModel}"/>
+     </Grid>
+</Window>

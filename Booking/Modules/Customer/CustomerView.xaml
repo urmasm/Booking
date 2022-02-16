@@ -1,0 +1,73 @@
+﻿<Window x:Class="CustomerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Booking"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Klient" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBar>
+            <Button Content="Salvesta &amp; sule" Command="{Binding SaveCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:CallMethodAction MethodName="Close" 
+                                            IsEnabled="{Binding HasNoErrors}"
+                                            TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Content="Salvesta" Command="{Binding SaveCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5" />
+            <Button Content="Kustuta" Command="{Binding DeleteCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:CallMethodAction MethodName="Close"
+                                            TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </ToolBar>
+        <TextBlock Grid.Row="1" Text="{Binding NotificationText}" Foreground="Red" Visibility="{Binding NotificationVisibility}" Margin="5"/>
+        <Grid Grid.Row="2">
+            <Grid.Resources >
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+                <Style TargetType="DatePicker">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Eesnimi"/>
+            <TextBox Grid.Column="1" Text="{Binding FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="1" Text="Perekonnanimi"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="2" Text="Isikukood" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding IdNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="3" Text="E-post"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>            
+        </Grid>
+    </Grid>
+</Window>
