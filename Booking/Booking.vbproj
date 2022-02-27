@@ -101,6 +101,8 @@
     <Compile Include="MainWindowVM.vb" />
     <Compile Include="Misc\Command.vb" />
     <Compile Include="Misc\Misc.vb" />
+    <Compile Include="Modules\BaseClasses\GridViewModelBase.vb" />
+    <Compile Include="Modules\BaseClasses\ViewModelBase.vb" />
     <Compile Include="Models\Customer.vb" />
     <Compile Include="Models\DTOs\BookingGridDto.vb" />
     <Compile Include="Models\Reservation.vb" />

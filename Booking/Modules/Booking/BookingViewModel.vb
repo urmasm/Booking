@@ -1,16 +1,13 @@
-﻿Imports System.ComponentModel
-Imports System.Runtime.CompilerServices
-
-Public Class BookingViewModel
-    Implements INotifyPropertyChanged
+﻿Public Class BookingViewModel
+    Inherits ViewModelBase
 
     Dim _bookingService As IBookingService
     Private bvm As BookingGridViewModel
     Public Sub New(id As Integer, vm As BookingGridViewModel, bookingService As IBookingService)
         _bookingService = bookingService
-        LoadBooking(id)
-        SaveCommand = New Command(AddressOf SaveBooking)
-        DeleteCommand = New Command(AddressOf DeleteBooking)
+        Load(id)
+        SaveCommand = New Command(AddressOf Save)
+        DeleteCommand = New Command(AddressOf Delete)
         FindFreeRoomsCommand = New Command(AddressOf LoadFreeRooms)
         bvm = vm
         CanClose = True
@@ -18,7 +15,7 @@ Public Class BookingViewModel
         ReservationSummary = ReservationText(ReservationTextType.SelectBeds)
     End Sub
 
-    Public Async Sub LoadBooking(id As Integer)
+    Public Overrides Async Sub Load(id As Integer)
         Booking = Await _bookingService.GetBooking(id)
         Dim _roomService As New RoomService
         RoomsList = Await _roomService.GetRooms
@@ -35,7 +32,7 @@ Public Class BookingViewModel
         CustomersList = ccl
     End Sub
 
-    Public Async Sub SaveBooking()
+    Public Overrides Async Sub Save()
         HasNoErrors = False
         CanClose = False
         If CustomerID = 0 Then
@@ -59,12 +56,11 @@ Public Class BookingViewModel
 
         CanClose = True
         Dim ID = Await _bookingService.SaveBooking(Booking)
-            Booking.ReservationID = ID
-            bvm.LoadBookings()
-
+        Booking.ReservationID = ID
+        bvm.Load()
     End Sub
 
-    Public Sub DeleteBooking()
+    Public Overrides Async Sub Delete()
         Dim errorString As String
         Dim dd = DateDiff(DateInterval.Day, Today.Date, ReservationStart)
         Select Case dd
@@ -82,11 +78,10 @@ Public Class BookingViewModel
         Else
             CanClose = True
             If MessageBox.Show("Valitud reserveering kustutatakse jäädavalt.", "Kustutamine", MessageBoxButton.OKCancel, MessageBoxImage.Warning) = MessageBoxResult.OK Then
-                _bookingService.DeleteBooking(BookingID)
-                bvm.LoadBookings()
+                Await _bookingService.DeleteBooking(BookingID)
+                bvm.Load()
             End If
         End If
-
     End Sub
 
     Public Async Sub LoadFreeRooms()
@@ -127,8 +122,6 @@ ReservationStart & ", " & "Tuba number " & SelectedRoom.RoomNo & ", " & "Broneer
         Return r
     End Function
 
-    Public Property SaveCommand As Command
-    Public Property DeleteCommand As Command
     Public Property FindFreeRoomsCommand As Command
 
     Private _reservationSummary As String
@@ -345,44 +338,6 @@ ReservationStart & ", " & "Tuba number " & SelectedRoom.RoomNo & ", " & "Broneer
             OnPropertyChanged(NameOf(Beds))
         End Set
     End Property
-
-    Private _notificationText As String
-    Public Property NotificationText As String
-        Get
-            Return _notificationText
-        End Get
-        Set(value As String)
-            _notificationText = value
-            OnPropertyChanged(NameOf(NotificationText))
-        End Set
-    End Property
-
-    Private _notificationVisibility
-    Public Property NotificationVisibility As Visibility
-        Get
-            Return _notificationVisibility
-        End Get
-        Set(value As Visibility)
-            _notificationVisibility = value
-            OnPropertyChanged(NameOf(NotificationVisibility))
-        End Set
-    End Property
-
-    Private _hasNoErrors As Boolean
-    Public Property HasNoErrors As Boolean
-        Get
-            Return _hasNoErrors
-        End Get
-        Set(value As Boolean)
-            _hasNoErrors = value
-            OnPropertyChanged(NameOf(HasNoErrors))
-        End Set
-    End Property
-
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Protected Sub OnPropertyChanged(<CallerMemberName> Optional name As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
-    End Sub
 
     Public Enum ReservationTextType
         SelectBeds

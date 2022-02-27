@@ -12,27 +12,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button Content="Uus klient" Command="{Binding NewCustomerCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
-            <Button Content="Ava klient" Command="{Binding OpenCustomerCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Uus klient" Command="{Binding OpenNewCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Ava klient" Command="{Binding OpenWindowCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
         </ToolBar>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
             <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenCustomerCommand}" CommandParameter="{Binding CollectionView/}"/>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenWindowCommand}" CommandParameter="{Binding CollectionView/}"/>
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Eesnimi" Binding="{Binding FirstName}"/>
                 <DataGridTextColumn Header="Perekonnanimi" Binding="{Binding LastName}"/>
                 <DataGridTextColumn Header="Isikukood" Binding="{Binding IdNumber}"/>
                 <DataGridTextColumn Width="*"  Header="E-post" Binding="{Binding Email}" />
-
-                <!--<DataGridTemplateColumn Header="Birthday">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
-
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

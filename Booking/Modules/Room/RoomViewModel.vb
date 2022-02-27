@@ -1,25 +1,21 @@
-﻿Imports System.ComponentModel
-Imports System.Runtime.CompilerServices
-
-Public Class RoomViewModel
-    Implements INotifyPropertyChanged
+﻿Public Class RoomViewModel
+    Inherits ViewModelBase
 
     Dim _roomService As IRoomService
     Private rvm As RoomGridViewModel
     Public Sub New(id As Integer, vm As RoomGridViewModel, roomService As IRoomService)
         _roomService = roomService
-        LoadRoom(id)
-        SaveCommand = New Command(AddressOf SaveRoom)
-        DeleteCommand = New Command(AddressOf DeleteRoom)
+        Load(id)
+        SaveCommand = New Command(AddressOf Save)
+        DeleteCommand = New Command(AddressOf Delete)
         rvm = vm
     End Sub
 
-    Public Async Sub LoadRoom(id As Integer)
+    Public Overrides Async Sub Load(id As Integer)
         Room = Await _roomService.GetRoom(id)
     End Sub
 
-    Public Async Sub SaveRoom()
-
+    Public Overrides Async Sub Save()
         HasNoErrors = False
         If String.IsNullOrEmpty(RoomNo) Then
             NotificationText = "Toa number on nõutav."
@@ -40,16 +36,13 @@ Public Class RoomViewModel
         NotificationVisibility = Visibility.Collapsed
         Dim ID = Await _roomService.SaveRoom(Room)
         Room.RoomID = ID
-        rvm.LoadRooms()
+        rvm.Load()
     End Sub
 
-    Public Sub DeleteRoom()
-        _roomService.DeleteRoom(RoomID)
-        rvm.LoadRooms()
+    Public Overrides Async Sub Delete()
+        Await _roomService.DeleteRoom(RoomID)
+        rvm.Load()
     End Sub
-
-    Public Property SaveCommand As Command
-    Public Property DeleteCommand As Command
 
     Private _room As Room
     Public Property Room As Room
@@ -106,41 +99,4 @@ Public Class RoomViewModel
         End Set
     End Property
 
-    Private _notificationText As String
-    Public Property NotificationText As String
-        Get
-            Return _notificationText
-        End Get
-        Set(value As String)
-            _notificationText = value
-            OnPropertyChanged(NameOf(NotificationText))
-        End Set
-    End Property
-
-    Private _hasNoErrors As Boolean
-    Public Property HasNoErrors As Boolean
-        Get
-            Return _hasNoErrors
-        End Get
-        Set(value As Boolean)
-            _hasNoErrors = value
-            OnPropertyChanged(NameOf(HasNoErrors))
-        End Set
-    End Property
-
-    Private _notificationVisibility
-    Public Property NotificationVisibility As Visibility
-        Get
-            Return _notificationVisibility
-        End Get
-        Set(value As Visibility)
-            _notificationVisibility = value
-            OnPropertyChanged(NameOf(NotificationVisibility))
-        End Set
-    End Property
-
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Protected Sub OnPropertyChanged(<CallerMemberName> Optional name As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
-    End Sub
 End Class

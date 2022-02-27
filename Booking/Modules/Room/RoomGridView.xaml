@@ -12,12 +12,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button Content="Uus tuba" Command="{Binding NewRoomCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
-            <Button Content="Ava tuba" Command="{Binding OpenRoomCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Uus tuba" Command="{Binding OpenNewCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Ava tuba" Command="{Binding OpenWindowCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
         </ToolBar>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
             <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenRoomCommand}" CommandParameter="{Binding CollectionView/}"/>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenWindowCommand}" CommandParameter="{Binding CollectionView/}"/>
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Toa nr" Binding="{Binding RoomNo}"/>

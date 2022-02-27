@@ -1,25 +1,22 @@
-﻿Imports System.ComponentModel
-Imports System.Runtime.CompilerServices
-
-Public Class CustomerViewModel
-    Implements INotifyPropertyChanged
+﻿Public Class CustomerViewModel
+    Inherits ViewModelBase
 
     Dim _customerService As ICustomerService
     Private cvm As CustomerGridViewModel
     Public Sub New(id As Integer, vm As CustomerGridViewModel, customerService As ICustomerService)
         _customerService = customerService
-        LoadCustomer(id)
-        SaveCommand = New Command(AddressOf SaveCustomer)
-        DeleteCommand = New Command(AddressOf DeleteCustomer)
+        Load(id)
+        SaveCommand = New Command(AddressOf Save)
+        DeleteCommand = New Command(AddressOf Delete)
         cvm = vm
         NotificationVisibility = Visibility.Collapsed
     End Sub
 
-    Public Async Sub LoadCustomer(id As Integer)
+    Public Overrides Async Sub Load(id As Integer)
         Customer = Await _customerService.GetCustomer(id)
     End Sub
 
-    Public Async Sub SaveCustomer()
+    Public Overrides Async Sub Save()
         HasNoErrors = False
 
         If String.IsNullOrEmpty(FirstName) Then
@@ -28,7 +25,7 @@ Public Class CustomerViewModel
             Return
         End If
         If String.IsNullOrEmpty(LastName) Then
-                NotificationText = "Perekonnanimi on nõutav."
+            NotificationText = "Perekonnanimi on nõutav."
             NotificationVisibility = Visibility.Visible
             Return
         End If
@@ -52,16 +49,13 @@ Public Class CustomerViewModel
 
         Dim ID = Await _customerService.SaveCustomer(Customer)
         Customer.CustomerID = ID
-        cvm.LoadCustomers()
+        cvm.Load()
     End Sub
 
-    Public Sub DeleteCustomer()
-        _customerService.DeleteCustomer(CustomerID)
-        cvm.LoadCustomers()
+    Public Overrides Async Sub Delete()
+        Await _customerService.DeleteCustomer(CustomerID)
+        cvm.Load()
     End Sub
-
-    Public Property SaveCommand As Command
-    Public Property DeleteCommand As Command
 
     Private _customer As Customer
     Public Property Customer As Customer
@@ -129,41 +123,4 @@ Public Class CustomerViewModel
         End Set
     End Property
 
-    Private _notificationText As String
-    Public Property NotificationText As String
-        Get
-            Return _notificationText
-        End Get
-        Set(value As String)
-            _notificationText = value
-            OnPropertyChanged(NameOf(NotificationText))
-        End Set
-    End Property
-
-    Private _hasNoErrors As Boolean
-    Public Property HasNoErrors As Boolean
-        Get
-            Return _hasNoErrors
-        End Get
-        Set(value As Boolean)
-            _hasNoErrors = value
-            OnPropertyChanged(NameOf(HasNoErrors))
-        End Set
-    End Property
-
-    Private _notificationVisibility
-    Public Property NotificationVisibility As Visibility
-        Get
-            Return _notificationVisibility
-        End Get
-        Set(value As Visibility)
-            _notificationVisibility = value
-            OnPropertyChanged(NameOf(NotificationVisibility))
-        End Set
-    End Property
-
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Protected Sub OnPropertyChanged(<CallerMemberName> Optional name As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
-    End Sub
 End Class

@@ -12,12 +12,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button Content="Uus broneering" Command="{Binding NewBookingCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
-            <Button Content="Ava broneering" Command="{Binding OpenBookingCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Uus broneering" Command="{Binding OpenNewCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
+            <Button Content="Ava broneering" Command="{Binding OpenWindowCommand}" BorderThickness="1" BorderBrush="DarkGray" Margin="5"/>
         </ToolBar>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Bookings}" SelectedItem="{Binding SelectedBooking,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
             <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenBookingCommand}" CommandParameter="{Binding CollectionView/}"/>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenWindowCommand}" CommandParameter="{Binding CollectionView/}"/>
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Toa nr" Binding="{Binding Room}"/>

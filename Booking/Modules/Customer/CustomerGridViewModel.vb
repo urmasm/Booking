@@ -1,30 +1,26 @@
-﻿Imports System.ComponentModel
-Imports System.Runtime.CompilerServices
-
-Public Class CustomerGridViewModel
-    Implements INotifyPropertyChanged
+﻿Public Class CustomerGridViewModel
+    Inherits GridViewModelBase
 
     Dim _customerService As ICustomerService
-
     Public Sub New()
         _customerService = New CustomerService
-        LoadCustomers()
-        OpenCustomerCommand = New Command(AddressOf OpenCustomerWindow)
-        NewCustomerCommand = New Command(AddressOf OpenNewCustomerWindow)
+        Load()
+        OpenWindowCommand = New Command(AddressOf OpenWindow)
+        OpenNewCommand = New Command(AddressOf OpenNewWindow)
     End Sub
 
     Public Sub New(customerService As ICustomerService)
         _customerService = customerService
-        LoadCustomers()
-        OpenCustomerCommand = New Command(AddressOf OpenCustomerWindow)
-        NewCustomerCommand = New Command(AddressOf OpenNewCustomerWindow)
+        Load()
+        OpenWindowCommand = New Command(AddressOf OpenWindow)
+        OpenNewCommand = New Command(AddressOf OpenNewWindow)
     End Sub
 
-    Public Sub LoadCustomers()
+    Public Overrides Sub Load()
         Customers = _customerService.GetCustomers.Result
     End Sub
 
-    Private Sub OpenCustomerWindow()
+    Public Overrides Sub OpenWindow()
         If Not SelectedCustomer Is Nothing Then
             Dim viewmodel As New CustomerViewModel(SelectedCustomer.CustomerID, Me, _customerService)
             Dim view As New CustomerView
@@ -33,15 +29,12 @@ Public Class CustomerGridViewModel
         End If
     End Sub
 
-    Private Sub OpenNewCustomerWindow()
+    Public Overrides Sub OpenNewWindow()
         Dim viewmodel As New CustomerViewModel(0, Me, _customerService)
         Dim view As New CustomerView
         view.DataContext = viewmodel
         view.ShowDialog()
     End Sub
-
-    Public Property OpenCustomerCommand() As Command
-    Public Property NewCustomerCommand As Command
 
     Private _customers As List(Of Customer)
     Public Property Customers As List(Of Customer)
@@ -64,10 +57,5 @@ Public Class CustomerGridViewModel
             OnPropertyChanged(NameOf(SelectedCustomer))
         End Set
     End Property
-
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Protected Sub OnPropertyChanged(<CallerMemberName> Optional name As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
-    End Sub
 
 End Class
